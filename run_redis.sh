@@ -43,10 +43,7 @@ redis_clean() {
 	port=$1
 	aof=$2
 	conf_file=redis_$port.conf
-	pid=`pgrep -f $port`
-	if [ -n "$pid" ]; then
-		sudo kill -9 $pid
-	fi
+	redis-cli -p $port shutdown
 	rm -rf $port $conf_file
 	if [ -d "/mnt/pmem0" ]; then
 		rm -rf /mnt/pmem0/redis*
