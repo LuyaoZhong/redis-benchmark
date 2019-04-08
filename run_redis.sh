@@ -33,10 +33,10 @@ redis_run() {
 			sed -i '$a\nvm-threshold 64' $conf_file
 			sed -i '$a\pointer-based-aof yes' $conf_file
 			touch /mnt/pmem0/redis-port-$port-1GB-AEP
-			dd if=/dev/zero of=/mnt/pmem0/redis-port-$port-1GB-AEP bs=1024k count=1024
+			dd if=/dev/zero of=/mnt/pmem0/redis-port-$port-1GB-AEP bs=1024k count=1024 >/dev/null 2>&1
 		fi
 	fi
-	redis-server $conf_file
+	redis-server $conf_file >/dev/null 2>&1
 }
 
 redis_clean() {
@@ -55,15 +55,12 @@ redis_clean() {
 
 
 Operation=$1 #clean or run
-#####################
-# Run or Stop Redis #
-#####################
-PORT_LIST=`seq 6379 6383`
-AOF=aof # or noaof
-
+######################
+# Run or Clean Redis #
+######################
 for port in $PORT_LIST
 do
-	echo $port
+	# echo $port
 	if [ "$Operation" = "run" ]; then
 		redis_run $port $AOF
 	fi

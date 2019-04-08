@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# redis instances num
+if [[ -n "$INST_NUM" ]]
+then
+	INST_NUM=$INST_NUM
+else
+	INST_NUM=1
+fi
+
+# redis port list
+FIRST_PORT=6379
+LAST_PORT=`echo "$FIRST_PORT + $INST_NUM - 1" | bc`
+export PORT_LIST=`seq $FIRST_PORT $LAST_PORT`
+
+# aof or noaof, open/close appendonly mode
+export AOF=aof
