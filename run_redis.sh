@@ -38,6 +38,9 @@ redis_run() {
 	fi
 	cpu=`echo "$port - 6379" | bc`
 	taskset -c $cpu redis-server $conf_file >/dev/null 2>&1
+	cpuset0=`echo "$port - 6379" | bc`
+	cpuset1=`echo "$cpuset0 + 12" | bc`
+	taskset -c $cpuset0,$cpuset1 redis-server $conf_file >/dev/null 2>&1
 }
 
 redis_clean() {
