@@ -51,8 +51,9 @@ do
 done < tmp.txt
 rm -rf tmp.txt
 
-echo "qps=$qps inst=$inst"
-echo "----Tests Done----"
+echo "$qps"
+#echo "qps=$qps inst=$inst"
+#echo "----Tests Done----"
 
 
 ###### Clean Redis Instances ######

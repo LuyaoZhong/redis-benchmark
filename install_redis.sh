@@ -14,19 +14,6 @@ git submodule update
 
 if [  "$REDIS_VERSION" = "pmem" ]; then
 	make USE_NVM=yes AEP_COW=yes SUPPORT_PBA=yes USE_AOFGUARD=yes
-
-	# get existed namespace
-	ns=`ndctl list |grep namespace |cut -d ':' -f2 |cut -d '"' -f2`
-
-	# create namespaces
-	sudo ndctl create-namespace -e $ns -m fsdax --force
-
-	# mount file system
-	devpath=`ls /dev/pmem*`
-	sudo mkfs.ext4 $devpath
-	sudo mkdir /mnt/pmem0
-	sudo mount -o dax $devpath /mnt/pmem0
-	sudo chmod 777 -R /mnt/pmem0
 fi
 
 if [  "$REDIS_VERSION" = "opensource" ]; then
