@@ -36,7 +36,8 @@ redis_run() {
 			dd if=/dev/zero of=/mnt/pmem0/redis-port-$port-1GB-AEP bs=1024k count=1024 >/dev/null 2>&1
 		fi
 	fi
-	redis-server $conf_file >/dev/null 2>&1
+	cpu=`echo "$port - 6379" | bc`
+	taskset -c $cpu redis-server $conf_file >/dev/null 2>&1
 }
 
 redis_clean() {
